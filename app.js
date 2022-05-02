@@ -31,7 +31,7 @@ app.use((req,res,next) => {
     next();
   })
 
-// app.use(`${URL}`, membersRouter);
+app.use(`${URL}`, membersRouter);
 app.use(`${URL}`, projectsRouter);
 // app.use(`${URL}`, projectOwnersRouter);
 // app.use(`${URL}`, projectTracksRouter);
