@@ -6,7 +6,7 @@ module.exports = {
       await queryInterface.bulkInsert('Projects', [
         {
           name: 'Aplikasi Ferizy',
-          categoryId: 1,
+          CatId: 1,
           description: 'Untuk booking tiket ferry secara online',
           capex_budget: '250000000',
           opex_budget: '100000000',
@@ -22,7 +22,7 @@ module.exports = {
         },
         {
           name: 'Container Platform',
-          categoryId: 3,
+          CatId: 3,
           description: 'Platform untuk container orchestrator',
           capex_budget: '1500000000',
           opex_budget: '175000000',
