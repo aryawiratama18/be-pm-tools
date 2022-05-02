@@ -6,15 +6,21 @@ module.exports = {
     await queryInterface.bulkInsert('ProjectOwners', [
       {
         name: 'Divisi Komersial',
-        description: ''
+        description: '',
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         name: 'Divisi Keuangan',
-        description: ''
+        description: '',
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         name: 'Divisi Hukum',
-        description: ''
+        description: '',
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
   ], {});
 
