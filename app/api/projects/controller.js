@@ -80,5 +80,14 @@ module.exports = {
         } catch (error) {
             next(error);
         }
+    },
+
+    // Assign project to member
+    assign: async(req,res,next) => {
+        try {
+            
+        } catch (error) {
+            next(error);
+        }
     }
 }
