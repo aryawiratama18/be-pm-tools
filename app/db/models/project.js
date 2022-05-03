@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      // Project.belongsTo(models.ProjectDetail);
     }
   }
   Project.init({
@@ -23,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     start_exec_plan : DataTypes.DATEONLY,
     finish_exec_plan : DataTypes.DATEONLY,
     start_exec_real : DataTypes.DATEONLY,
-    finish_exec_plan : DataTypes.DATEONLY,
+    finish_exec_real : DataTypes.DATEONLY,
     status : DataTypes.STRING
   }, {
     sequelize,
