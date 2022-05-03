@@ -1,4 +1,4 @@
-const {Project, ProjectDetail,} = require('../../db/models');
+const {Project, ProjectDetail,Member,ProjectOwner} = require('../../db/models');
 
 module.exports = {
     // Get all project
@@ -22,25 +22,30 @@ module.exports = {
             const {id} = req.params; // ID Project nya
             let ProjectDetailData = await ProjectDetail.findAll({where: {ProjectId: id}});
             let ProjectDetailMembers = [];
-            ProjectDetailData.forEach(element => {
+            let ProjectDetailOwners = [];
+            let temp = [];
+
+            await Promise.all (ProjectDetailData.map(async (element) =>{
                 if(ProjectDetailMembers.indexOf(element.dataValues.MemberId) < 0)
                 {
-                    ProjectDetailMembers.push(element.dataValues.MemberId);
+                    let MemberData = await Member.findAll({where: {id: element.dataValues.MemberId}});
+                    ProjectDetailMembers.push(MemberData[0].firstName + " " + MemberData[0].lastName);
+                    if(ProjectDetailOwners.indexOf(element.dataValues.ProjectOwnerId) < 0)
+                    {
+                        let OwnerData = await ProjectOwner.findAll({where: {id: element.dataValues.ProjectOwnerId}});
+                        let BPO = temp;
+                        if(BPO !== OwnerData[0].name)
+                        {
+                            temp = OwnerData[0].name;
+                            ProjectDetailOwners.push(temp);
+                        }
+                        else 
+                        {
+                            BPO = temp;
+                        }
+                    }
                 }
-                else {
-
-                }
-            });
-            let ProjectDetailOwners = [];
-            ProjectDetailData.forEach(element => {
-                if(ProjectDetailOwners.indexOf(element.dataValues.ProjectOwnerId) < 0)
-                {
-                    ProjectDetailOwners.push(element.dataValues.ProjectOwnerId);
-                }
-                else {
-                    
-                }
-            });
+            }))
 
             let ProjectData = await Project.findOne({where: {id: id}});
             ProjectData = ProjectData.dataValues;
