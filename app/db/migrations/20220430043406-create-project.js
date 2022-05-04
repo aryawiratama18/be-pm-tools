@@ -11,13 +11,6 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      CatId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Cats',
-          key: 'id'
-        }
-      },
       description: {
         type: Sequelize.STRING
       },

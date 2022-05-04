@@ -7,6 +7,7 @@ module.exports = {
           ProjectId: 1,
           MemberId: 1,
           ProjectOwnerId: 2,
+          CategoryId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -14,6 +15,7 @@ module.exports = {
           ProjectId: 1,
           MemberId: 2,
           ProjectOwnerId: 2,
+          CategoryId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -21,6 +23,7 @@ module.exports = {
           ProjectId: 1,
           MemberId: 3,
           ProjectOwnerId: 2,
+          CategoryId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -28,6 +31,7 @@ module.exports = {
           ProjectId: 2,
           MemberId: 2,
           ProjectOwnerId: 1,
+          CategoryId: 3,
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -35,6 +39,7 @@ module.exports = {
           ProjectId: 2,
           MemberId: 3,
           ProjectOwnerId: 2,
+          CategoryId: 3,
           createdAt: new Date(),
           updatedAt: new Date()
         }

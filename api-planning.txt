@@ -1,0 +1,99 @@
+GROUP : Project
+=================================================================
+[1] - Get All Project
+
+request:
+GET : {{URL}}:{{Port}}/api/{{Version}}/projects
+
+response:
+{
+    "message": "get all success",
+    "data": [
+        {
+            "id": 1,
+            "name": "Aplikasi Ferizy",
+            "description": "Untuk booking tiket ferry secara online"
+        },
+        {
+            "id": 2,
+            "name": "Container Platform",
+            "description": "Platform untuk container orchestrator"
+        }
+    ]
+}
+==================================================================
+[2] - Get Project Detail
+
+request:
+GET: {{URL}}:{{Port}}/api/{{Version}}/projects/:id
+
+response:
+{
+    "message": "get one success",
+    "data": {
+        "name": "Container Platform",
+        "description": "Platform untuk container orchestrator",
+        "detail": {
+            "member": [
+                "Dominic Toretto",
+                "Rodrigo Antonio"
+            ],
+            "projectOwner": [
+                "Divisi Komersial",
+                "Divisi Keuangan"
+            ],
+            "category": [
+                "Pengembangan Infrastruktur"
+            ],
+            "capex_budget": 1500000000,
+            "opex_budget": 175000000,
+            "capex_real": 200000000,
+            "opex_real": 100000000,
+            "start_exec_plan": "2022-01-24",
+            "finish_exec_plan": "2022-05-31",
+            "start_exec_real": "2022-05-09",
+            "finish_exec_real": "2022-10-04",
+            "status": "on progress"
+        }
+    }
+}
+==================================================================
+[3] - Create Project
+
+request : 
+POST: {{URL}}:{{Port}}/api/{{Version}}/projects
+
+{
+    "name" : "Aplikasi Rekam Medis",
+    "description": "Aplikasi yang digunakan untuk melakukan rekam medis",
+    "capex_budget": "0",
+    "opex_budget": "200000000",
+    "capex_real": "0",
+    "opex_real": "150000000",
+    "start_exec_plan": "2022-01-24",
+    "finish_exec_plan": "2022-05-31",
+    "start_exec_real": "2022-05-09",
+    "finish_exec_real": "2022-10-04",
+    "status": "on hold",
+}
+
+response: 
+{
+    "message": "create success",
+    "data": {
+        "id": 3,
+        "name": "Aplikasi Rekam Medis",
+        "description": "Aplikasi yang digunakan untuk melakukan rekam medis",
+        "capex_budget": "0",
+        "opex_budget": "200000000",
+        "capex_real": "0",
+        "opex_real": "150000000",
+        "start_exec_plan": "2022-01-24",
+        "finish_exec_plan": "2022-05-31",
+        "start_exec_real": "2022-05-09",
+        "finish_exec_real": "2022-10-04",
+        "status": "on hold",
+        "updatedAt": "2022-05-03T12:42:18.039Z",
+        "createdAt": "2022-05-03T12:42:18.039Z"
+    }
+}

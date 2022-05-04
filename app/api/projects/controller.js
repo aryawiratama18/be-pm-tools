@@ -1,4 +1,4 @@
-const {Project, ProjectDetail,Member,ProjectOwner} = require('../../db/models');
+const {Project, ProjectDetail,Member,ProjectOwner, Cat} = require('../../db/models');
 
 module.exports = {
     // Get all project
@@ -23,40 +23,51 @@ module.exports = {
             let ProjectDetailData = await ProjectDetail.findAll({where: {ProjectId: id}});
             let ProjectDetailMembers = [];
             let ProjectDetailOwners = [];
-            let temp = [];
+            let ProjectCategory = [];
+            let CATtemp = [];
+            let BPOtemp = [];
 
             await Promise.all (ProjectDetailData.map(async (element) =>{
-                if(ProjectDetailMembers.indexOf(element.dataValues.MemberId) < 0)
+                // Category Data
+                let Category = await Cat.findAll({where: {id: element.dataValues.CategoryId}});
+                let CAT = CATtemp;
+                if(CAT !== Category[0].name)
                 {
-                    let MemberData = await Member.findAll({where: {id: element.dataValues.MemberId}});
-                    ProjectDetailMembers.push(MemberData[0].firstName + " " + MemberData[0].lastName);
-                    if(ProjectDetailOwners.indexOf(element.dataValues.ProjectOwnerId) < 0)
-                    {
-                        let OwnerData = await ProjectOwner.findAll({where: {id: element.dataValues.ProjectOwnerId}});
-                        let BPO = temp;
-                        if(BPO !== OwnerData[0].name)
-                        {
-                            temp = OwnerData[0].name;
-                            ProjectDetailOwners.push(temp);
-                        }
-                        else 
-                        {
-                            BPO = temp;
-                        }
-                    }
+                    CATtemp = Category[0].name;
+                    ProjectCategory.push(CATtemp);
+                }
+                else
+                {
+                    CAT = CATtemp;
+                }
+
+                // Member Data
+                let MemberData = await Member.findAll({where: {id: element.dataValues.MemberId}});
+                ProjectDetailMembers.push(MemberData[0].firstName + " " + MemberData[0].lastName);
+                
+                // BPO Data
+                let OwnerData = await ProjectOwner.findAll({where: {id: element.dataValues.ProjectOwnerId}});
+                let BPO = BPOtemp;
+                if(BPO !== OwnerData[0].name)
+                {
+                    BPOtemp = OwnerData[0].name;
+                    ProjectDetailOwners.push(BPOtemp);
+                }
+                else 
+                {
+                    BPO = BPOtemp;
                 }
             }))
 
             let ProjectData = await Project.findOne({where: {id: id}});
             ProjectData = ProjectData.dataValues;
             const result = {
-                "id" : id,
                 "name" : ProjectData.name,
                 "description" : ProjectData.description,
                 "detail" : {
                     "member" : ProjectDetailMembers,
                     "projectOwner" : ProjectDetailOwners,
-                    "category" : ProjectData.category,
+                    "category" : ProjectCategory,
 			        "capex_budget" : ProjectData.capex_budget,
 			        "opex_budget" : ProjectData.opex_budget,
 			        "capex_real" : ProjectData.capex_real,
@@ -80,9 +91,9 @@ module.exports = {
     // Create project
     create: async (req,res,next) => {
         try {
-            const {name,CatId,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status} = req.body;
+            const {name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status} = req.body;
             const result = await Project.create({
-                name,CatId,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status
+                name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status
             });
             res.status(201).json({
                 message: "create success",
@@ -97,9 +108,9 @@ module.exports = {
     update: async (req,res,next) => {
         try {
             const {id} = req.params;
-            const {name,CatId,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status} =  req.body;
+            const {name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status} =  req.body;
             await Project.update({
-                name,CatId,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status
+                name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status
             }, {where: {id: id}});
             res.status(200).json({
                 message: "update success",

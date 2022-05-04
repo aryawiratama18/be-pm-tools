@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Project.init({
     name: DataTypes.STRING,
-    CatId: DataTypes.INTEGER,
     description: DataTypes.STRING,
     capex_budget : DataTypes.BIGINT,
     opex_budget : DataTypes.BIGINT,

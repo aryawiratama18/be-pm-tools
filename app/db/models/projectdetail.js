@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
   ProjectDetail.init({
     ProjectId: DataTypes.INTEGER,
     MemberId: DataTypes.INTEGER,
-    ProjectOwnerId: DataTypes.INTEGER
+    ProjectOwnerId: DataTypes.INTEGER,
+    CategoryId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'ProjectDetail',
