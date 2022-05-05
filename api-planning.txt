@@ -12,12 +12,14 @@ response:
         {
             "id": 1,
             "name": "Aplikasi Ferizy",
-            "description": "Untuk booking tiket ferry secara online"
+            "description": "Untuk booking tiket ferry secara online",
+            "status" : "on progress"
         },
         {
             "id": 2,
             "name": "Container Platform",
-            "description": "Platform untuk container orchestrator"
+            "description": "Platform untuk container orchestrator",
+            "status" : "on progress"
         }
     ]
 }
@@ -75,6 +77,7 @@ POST: {{URL}}:{{Port}}/api/{{Version}}/projects
     "start_exec_real": "2022-05-09",
     "finish_exec_real": "2022-10-04",
     "status": "on hold",
+    "category" : "Pengembangan Infrastruktur",
 }
 
 response: 
@@ -93,7 +96,29 @@ response:
         "start_exec_real": "2022-05-09",
         "finish_exec_real": "2022-10-04",
         "status": "on hold",
+        "category" : "Pengembangan Infrastruktur",
         "updatedAt": "2022-05-03T12:42:18.039Z",
         "createdAt": "2022-05-03T12:42:18.039Z"
     }
+}
+
+==================================================================
+[4] - Update Project
+
+request:
+PUT : {{URL}}:{{Port}}/api/{{Version}}/projects
+
+{
+    "name" : "Aplikasi Rekam Medis",
+    "description": "Aplikasi yang digunakan untuk melakukan rekam medis",
+    "capex_budget": "0",
+    "opex_budget": "200000000",
+    "capex_real": "0",
+    "opex_real": "150000000",
+    "start_exec_plan": "2022-01-24",
+    "finish_exec_plan": "2022-05-31",
+    "start_exec_real": "2022-05-09",
+    "finish_exec_real": "2022-10-04",
+    "status": "on hold",
+    "category" : "Pengembangan Aplikasi",
 }

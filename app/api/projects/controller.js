@@ -5,7 +5,7 @@ module.exports = {
     getAll: async (req,res,next) => {
         try {
             const result = await Project.findAll({
-                attributes: ["id","name","description"],
+                attributes: ["id","name","description","status"],
             });
             res.status(200).json({
                 message: "get all success",
@@ -92,9 +92,25 @@ module.exports = {
     create: async (req,res,next) => {
         try {
             const {name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status} = req.body;
-            const result = await Project.create({
+            const ProjectData = await Project.create({
                 name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status
             });
+            const result = {
+                "name" : ProjectData.name,
+                "description" : ProjectData.description,
+                "detail" : {
+			        "capex_budget" : ProjectData.capex_budget,
+			        "opex_budget" : ProjectData.opex_budget,
+			        "capex_real" : ProjectData.capex_real,
+			        "opex_real" : ProjectData.opex_real,
+			        "start_exec_plan" : ProjectData.start_exec_plan,
+			        "finish_exec_plan" : ProjectData.finish_exec_plan,
+			        "start_exec_real" : ProjectData.start_exec_real,
+			        "finish_exec_real" : ProjectData.finish_exec_real,
+			        "status" : ProjectData.status
+                }
+            }
+            console.log(result.dataValues.name);
             res.status(201).json({
                 message: "create success",
                 data: result,
@@ -104,11 +120,17 @@ module.exports = {
         }
     },
 
-    // Update project
+    // Edit project detail
     update: async (req,res,next) => {
         try {
             const {id} = req.params;
-            const {name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status} =  req.body;
+            const {name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status, category} =  req.body;
+
+            await ProjectDetail.create({
+                ProjectId: id,
+                CategoryId: category,
+            })
+
             await Project.update({
                 name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status
             }, {where: {id: id}});
@@ -138,12 +160,5 @@ module.exports = {
         }
     },
 
-    // Assign project to member
-    assign: async(req,res,next) => {
-        try {
-            
-        } catch (error) {
-            next(error);
-        }
-    }
+
 }
