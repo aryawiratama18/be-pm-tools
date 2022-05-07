@@ -13,7 +13,6 @@ module.exports ={
         .bail()
         .custom(async(value, {req}) => {
             const isExist = await Project.findOne({where:{id: value}});
-
             if(isExist == null) {
                 return Promise.reject();
             }

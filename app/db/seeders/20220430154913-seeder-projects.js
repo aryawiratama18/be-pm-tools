@@ -17,7 +17,8 @@ module.exports = {
           finish_exec_real: new Date(2022,9,5),
           status: 'on progress',
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          CategoryId : 1
         },
         {
           name: 'Container Platform',
@@ -32,7 +33,8 @@ module.exports = {
           finish_exec_real: new Date(2022,9,5),
           status: 'on progress',
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          CategoryId: 2
         },
     ], {});
 

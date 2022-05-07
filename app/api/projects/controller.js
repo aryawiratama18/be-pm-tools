@@ -1,4 +1,4 @@
-const {Project, ProjectDetail,Member,ProjectOwner, Cat, Owner} = require('../../db/models');
+const {Project, Member, Category, Owner} = require('../../db/models');
 
 module.exports = {
     // Get all project
@@ -29,84 +29,52 @@ module.exports = {
     },
 
     // Get project detail
-    // getOne: async(req,res,next) => {
-    //     try {
-    //         const {id} = req.params; // ID Project nya
-    //         let ProjectDetailData = await ProjectDetail.findAll({where: {ProjectId: id}});
-    //         let ProjectDetailMembers = [];
-    //         let ProjectDetailOwners = [];
-    //         let ProjectCategory = [];
-    //         let CATtemp = [];
-    //         let BPOtemp = [];
+    getOne: async (req,res,next) => {
+        try {
+            const {id} = req.params; // ID Project
+            console.log(id);
+            const result = await Project.findOne({
+                attributes: {exclude: ["CategoryId"]},
+                include: [
+                    {
+                        model: Member,
+                        attributes: ["firstName", "lastName"],
+                        through: {attributes: []}
+                    },
+                    {
+                        model: Owner,
+                        attributes: ["name"],
+                        through: {attributes: []}
+                    },
+                    {
+                        model: Category,
+                        attributes: ["name"]
+                    }
+                ]
+            },
 
-    //         await Promise.all (ProjectDetailData.map(async (element) =>{
-    //             // Category Data
-    //             let Category = await Cat.findAll({where: {id: element.dataValues.CategoryId}});
-    //             let CAT = CATtemp;
-    //             if(CAT !== Category[0].name)
-    //             {
-    //                 CATtemp = Category[0].name;
-    //                 ProjectCategory.push(CATtemp);
-    //             }
-    //             else
-    //             {
-    //                 CAT = CATtemp;
-    //             }
+            {where: {id: id}})
 
-    //             // Member Data
-    //             let MemberData = await Member.findAll({where: {id: element.dataValues.MemberId}});
-    //             ProjectDetailMembers.push(MemberData[0].firstName + " " + MemberData[0].lastName);
-                
-    //             // BPO Data
-    //             let OwnerData = await ProjectOwner.findAll({where: {id: element.dataValues.ProjectOwnerId}});
-    //             let BPO = BPOtemp;
-    //             if(BPO !== OwnerData[0].name)
-    //             {
-    //                 BPOtemp = OwnerData[0].name;
-    //                 ProjectDetailOwners.push(BPOtemp);
-    //             }
-    //             else 
-    //             {
-    //                 BPO = BPOtemp;
-    //             }
-    //         }))
+            res.status(200).json({
+                message: "get one success",
+                data: result
+            })
 
-    //         let ProjectData = await Project.findOne({where: {id: id}});
-    //         ProjectData = ProjectData.dataValues;
-    //         const result = {
-    //             "name" : ProjectData.name,
-    //             "description" : ProjectData.description,
-    //             "detail" : {
-    //                 "member" : ProjectDetailMembers,
-    //                 "projectOwner" : ProjectDetailOwners,
-    //                 "category" : ProjectCategory,
-	// 		        "capex_budget" : ProjectData.capex_budget,
-	// 		        "opex_budget" : ProjectData.opex_budget,
-	// 		        "capex_real" : ProjectData.capex_real,
-	// 		        "opex_real" : ProjectData.opex_real,
-	// 		        "start_exec_plan" : ProjectData.start_exec_plan,
-	// 		        "finish_exec_plan" : ProjectData.finish_exec_plan,
-	// 		        "start_exec_real" : ProjectData.start_exec_real,
-	// 		        "finish_exec_real" : ProjectData.finish_exec_real,
-	// 		        "status" : ProjectData.status
-    //             }
-    //         }
-    //         res.status(200).json({
-    //             message: "get one success",
-    //             data: result
-    //         })
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // },
+        } catch (error) {
+            next(error);
+        }
+    },
 
     // Create project
     create: async (req,res,next) => {
         try {
-            const {name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status} = req.body;
-            const ProjectData = await Project.create({
-                name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status
+            const {name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status, CategoryId} = req.body;
+
+            let ProjectData = await Project.create({
+                name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status, CategoryId
             });
+            ProjectData = ProjectData.dataValues;
+            const categoryName = await Category.findOne({where: {id: ProjectData.CategoryId}})
             const result = {
                 "name" : ProjectData.name,
                 "description" : ProjectData.description,
@@ -119,10 +87,10 @@ module.exports = {
 			        "finish_exec_plan" : ProjectData.finish_exec_plan,
 			        "start_exec_real" : ProjectData.start_exec_real,
 			        "finish_exec_real" : ProjectData.finish_exec_real,
-			        "status" : ProjectData.status
+			        "status" : ProjectData.status,
+                    "category" : categoryName.dataValues.name
                 }
             }
-            console.log(result.dataValues.name);
             res.status(201).json({
                 message: "create success",
                 data: result,

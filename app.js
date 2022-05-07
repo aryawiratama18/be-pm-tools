@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const membersRouter = require('./app/api/members/routes');
+const categoriesRouter = require('./app/api/categories/routes');
 const rolesRouter = require('./app/api/roles/routes');
 const projectsRouter = require('./app/api/projects/routes');
 const ownersRouter = require('./app/api/owners/routes');
@@ -36,6 +37,7 @@ app.use(`${URL}`, membersRouter);
 app.use(`${URL}`, rolesRouter);
 app.use(`${URL}`, projectsRouter);
 app.use(`${URL}`, ownersRouter);
+app.use(`${URL}`, categoriesRouter);
 // app.use(`${URL}`, projectTracksRouter);
 
 app.use((req,res,next) => {

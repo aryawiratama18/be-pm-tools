@@ -4,7 +4,7 @@ const {getAll,getOne, create, update,destroy,memberAssign, ownerAssign} = requir
 const {validateOne, validateCreate, validateUpdate, validateAssignMember, validateAssignOwner} = require("./validation");
 
 router.get('/projects', getAll);
-// router.get('/projects/:id', validateOne, getOne);
+router.get('/projects/:id',  validateOne,getOne);
 router.post('/projects', validateCreate, create);
 router.post('/projects/member/:id', validateAssignMember, memberAssign);
 router.post('/projects/owner/:id', validateAssignOwner, ownerAssign);

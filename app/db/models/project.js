@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Project.belongsToMany(models.Member, {through: models.ProjectMember, foreignKey: 'projectId'});
       Project.belongsToMany(models.Owner, {through: models.ProjectOwner, foreignKey: 'projectId'});
+      Project.belongsTo(models.Category);
     }
   }
   Project.init({
@@ -25,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     finish_exec_plan : DataTypes.DATEONLY,
     start_exec_real : DataTypes.DATEONLY,
     finish_exec_real : DataTypes.DATEONLY,
-    status : DataTypes.STRING
+    status : DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Project',
