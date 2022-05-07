@@ -1,4 +1,4 @@
-const {Project, ProjectDetail,Member,ProjectOwner, Cat} = require('../../db/models');
+const {Project, ProjectDetail,Member,ProjectOwner, Cat, ProjectMember} = require('../../db/models');
 
 module.exports = {
     // Get all project
@@ -6,6 +6,10 @@ module.exports = {
         try {
             const result = await Project.findAll({
                 attributes: ["id","name","description","status"],
+                include : [{
+                    model: Member,
+                    through: {attributes: []}
+                }]
             });
             res.status(200).json({
                 message: "get all success",
@@ -160,5 +164,21 @@ module.exports = {
         }
     },
 
+    // Assign project to member
+    assign: async (req,res,next) => {
+        try {
+            const {id} = req.params;
+            const {memberId} = req.body;
+            const SelectedProject = await Project.findOne({where: {id: id}});
+            await SelectedProject.addMembers(memberId);
+            const result = await SelectedProject.getMembers();
+            res.status(200).json({
+                message: "assign success",
+                data: result
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
 
 }
