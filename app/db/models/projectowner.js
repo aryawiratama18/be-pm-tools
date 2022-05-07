@@ -10,11 +10,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      ProjectOwner.belongsTo(models.Project, {foreignKey: 'projectId', targetKey: 'id'});
+      ProjectOwner.belongsTo(models.Owner, {foreignKey: 'ownerId', targetKey: 'id'});
     }
   }
   ProjectOwner.init({
-    name: DataTypes.STRING,
-    description: DataTypes.STRING
+    projectId: DataTypes.INTEGER,
+    ownerId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'ProjectOwner',

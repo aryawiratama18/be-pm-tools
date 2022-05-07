@@ -6,7 +6,7 @@ const logger = require('morgan');
 const membersRouter = require('./app/api/members/routes');
 const rolesRouter = require('./app/api/roles/routes');
 const projectsRouter = require('./app/api/projects/routes');
-const projectOwnersRouter = require('./app/api/projectOwners/routes');
+const ownersRouter = require('./app/api/owners/routes');
 const projectTracksRouter = require('./app/api/projectTracks/routes');
 
 const URL = "/api/v1";
@@ -35,7 +35,7 @@ app.use((req,res,next) => {
 app.use(`${URL}`, membersRouter);
 app.use(`${URL}`, rolesRouter);
 app.use(`${URL}`, projectsRouter);
-app.use(`${URL}`, projectOwnersRouter);
+app.use(`${URL}`, ownersRouter);
 // app.use(`${URL}`, projectTracksRouter);
 
 app.use((req,res,next) => {

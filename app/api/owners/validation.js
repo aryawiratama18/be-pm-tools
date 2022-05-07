@@ -1,5 +1,5 @@
 const {body, param, validationResult} =  require("express-validator");
-const {ProjectOwner} = require('../../db/models');
+const {Owner} = require('../../db/models');
 
 module.exports ={
     // Validasi get by id
@@ -12,7 +12,7 @@ module.exports ={
         .withMessage("id must be an integer")
         .bail()
         .custom(async(value, {req}) => {
-            const isExist = await ProjectOwner.findOne({where:{id: value}});
+            const isExist = await Owner.findOne({where:{id: value}});
 
             if(isExist == null) {
                 return Promise.reject();
@@ -58,7 +58,7 @@ module.exports ={
         .withMessage("id must be an integer")
         .bail()
         .custom(async(value, {req}) => {
-            const isExist = await ProjectOwner.findOne({where:{id: value}});
+            const isExist = await Owner.findOne({where:{id: value}});
 
             if(isExist == null) {
                 return Promise.reject();

@@ -3,9 +3,9 @@ var router = express.Router();
 const {getAll, create, update,destroy} = require("./controller");
 const {validateOne, validateCreate, validateUpdate} = require("./validation");
 
-router.get('/projectowners', getAll);
-router.post('/projectowners', validateCreate, create);
-router.put('/projectowners/:id', validateUpdate,update);
-router.delete('/projectowners/:id', validateOne, destroy);
+router.get('/owners', getAll);
+router.post('/owners', validateCreate, create);
+router.put('/owners/:id', validateUpdate,update);
+router.delete('/owners/:id', validateOne, destroy);
 
 module.exports = router;

@@ -1,10 +1,10 @@
-const {ProjectOwner} = require('../../db/models');
+const {Owner} = require('../../db/models');
 
 module.exports = {
     // Get all project owner
     getAll: async (req,res,next) => {
         try {
-            const result = await ProjectOwner.findAll({
+            const result = await Owner.findAll({
                 attributes: ["id","name","description"]
             })
             res.status(200).json({
@@ -20,7 +20,7 @@ module.exports = {
     create: async (req,res,next) => {
         try {
             const {name, description} = req.body;
-            const result = await ProjectOwner.create({
+            const result = await Owner.create({
                 name,description
             });
             res.status(201).json({
@@ -38,13 +38,13 @@ module.exports = {
             const {id} = req.params;
             const {name,description} = req.body;
 
-            await ProjectOwner.update({
+            await Owner.update({
                 name, description
             }, {where: {id:id}});
 
             res.status(200).json({
                 message: "update success",
-                data: await ProjectOwner.findOne({where: {id:id}})
+                data: await Owner.findOne({where: {id:id}})
             })
         } catch (error) {
             next(error);
@@ -55,9 +55,9 @@ module.exports = {
     destroy: async (req,res,next) => {
         try {
             const {id} = req.params;
-            const deletedData = await ProjectOwner.findOne({where: {id:id}});
+            const deletedData = await Owner.findOne({where: {id:id}});
 
-            await ProjectOwner.destroy({
+            await Owner.destroy({
                 where: {id:id}
             });
 
