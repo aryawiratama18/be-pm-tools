@@ -32,28 +32,29 @@ module.exports = {
     getOne: async (req,res,next) => {
         try {
             const {id} = req.params; // ID Project
-            console.log(id);
-            const result = await Project.findOne({
-                attributes: {exclude: ["CategoryId"]},
-                include: [
-                    {
-                        model: Member,
-                        attributes: ["firstName", "lastName"],
-                        through: {attributes: []}
-                    },
-                    {
-                        model: Owner,
-                        attributes: ["name"],
-                        through: {attributes: []}
-                    },
-                    {
-                        model: Category,
-                        attributes: ["name"]
-                    }
-                ]
-            },
-
-            {where: {id: id}})
+            const result = await Project.findAll(
+                 {
+                    attributes: {exclude: ["CategoryId"]},
+                    where: {id: id},
+                    include: [
+                        {
+                            model: Member,
+                            attributes: ["firstName", "lastName"],
+                            through: {attributes: []}
+                        },
+                        {
+                            model: Owner,
+                            attributes: ["name"],
+                            through: {attributes: []}
+                        },
+                        {
+                            model: Category,
+                            attributes: ["name"]
+                        }
+                    ]
+                },
+                
+            )
 
             res.status(200).json({
                 message: "get one success",
@@ -104,14 +105,14 @@ module.exports = {
     update: async (req,res,next) => {
         try {
             const {id} = req.params;
-            const {name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status, category} =  req.body;
+            const {name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status, CategoryId} =  req.body;
 
             await Project.update({
-                name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status
+                name,description,capex_budget,opex_budget,capex_real,opex_real,start_exec_plan,finish_exec_plan,start_exec_real,finish_exec_real,status, CategoryId
             }, {where: {id: id}});
             res.status(200).json({
                 message: "update success",
-                data: await Project.findOne({where: {id:id}})
+                data: await Project.findOne({include : [{model: Category,attributes: ["name"]}]},{where: {id:id}})
             });
         } catch (error) {
             next(error);

@@ -1,11 +1,15 @@
-const {Category} = require('../../db/models');
+const {Category, Project} = require('../../db/models');
 
 module.exports = {
     // Get all categories
     getAll: async (req,res, next) => {
         try {
             const result = await Category.findAll({
-                attributes: ["id","name","description"]
+                attributes: ["id","name","description"],
+                include : [{
+                    model : Project,
+                    attributes : ["id","name"]
+                }]
             })
             res.status(200).json({
                 message: "get all success",
