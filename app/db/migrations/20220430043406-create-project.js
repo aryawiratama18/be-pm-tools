@@ -41,6 +41,9 @@ module.exports = {
       status : {
         type : Sequelize.STRING
       },
+      CategoryId : {
+        type : Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -48,10 +51,7 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      CategoryId : {
-        type : Sequelize.INTEGER
-      }
+      }      
     });
   },
   async down(queryInterface, Sequelize) {

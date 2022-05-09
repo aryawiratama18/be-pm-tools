@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       Project.belongsToMany(models.Member, {through: models.ProjectMember, foreignKey: 'projectId'});
       Project.belongsToMany(models.Owner, {through: models.ProjectOwner, foreignKey: 'projectId'});
       Project.belongsTo(models.Category);
+      Project.hasMany(models.Progress);
     }
   }
   Project.init({

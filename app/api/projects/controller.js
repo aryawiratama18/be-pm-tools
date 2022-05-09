@@ -16,6 +16,10 @@ module.exports = {
                         model: Owner,
                         attributes: ["name"],
                         through: {attributes: []}
+                    },
+                    {
+                        model: Category,
+                        attributes: ["name"]
                     }
                 ]
             });
@@ -112,7 +116,15 @@ module.exports = {
             }, {where: {id: id}});
             res.status(200).json({
                 message: "update success",
-                data: await Project.findOne({include : [{model: Category,attributes: ["name"]}]},{where: {id:id}})
+                data: await Project.findAll({
+                    where: {id:id}, 
+                    include : [
+                        {
+                            model: Category,
+                            attributes: ["name"]
+                        }
+                    ],
+                })
             });
         } catch (error) {
             next(error);
