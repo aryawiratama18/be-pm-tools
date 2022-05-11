@@ -8,7 +8,7 @@ const categoriesRouter = require('./app/api/categories/routes');
 const rolesRouter = require('./app/api/roles/routes');
 const projectsRouter = require('./app/api/projects/routes');
 const ownersRouter = require('./app/api/owners/routes');
-const projectTracksRouter = require('./app/api/projectTracks/routes');
+const progressRouter = require('./app/api/progress/routes');
 
 const URL = "/api/v1";
 const app = express();
@@ -38,7 +38,7 @@ app.use(`${URL}`, rolesRouter);
 app.use(`${URL}`, projectsRouter);
 app.use(`${URL}`, ownersRouter);
 app.use(`${URL}`, categoriesRouter);
-// app.use(`${URL}`, projectTracksRouter);
+app.use(`${URL}`, progressRouter);
 
 app.use((req,res,next) => {
     const err = new Error("Not Found");

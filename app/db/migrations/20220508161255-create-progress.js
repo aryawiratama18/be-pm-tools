@@ -12,10 +12,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       target: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       realization: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       value: {
         type: Sequelize.INTEGER

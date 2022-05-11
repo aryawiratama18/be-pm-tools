@@ -1,11 +1,11 @@
-const {Project, ProjectTrack} = require('../../db/models');
+const {Project, Progress} = require('../../db/models');
 
 module.exports = {
 
     // Get all project track
     getAll: async (req,res,next) => {
         try {
-            const result = await ProjectTrack.findAll({
+            const result = await Progress.findAll({
                 include: [{
                     model: Project,
                     attributes: ["name"]
@@ -25,7 +25,16 @@ module.exports = {
     getOne: async (req,res,next) => {
         try {
             const {id} = req.params;
-            const result = await ProjectTrack.findAll({where: {ProjectId: id}});
+            const result = await Progress.findAll({
+                attributes: {exclude: ["id","ProjectId"]},
+                where: {ProjectId: id},
+                include:
+                {
+                    model: Project,
+                    attributes: ["name"]
+                }
+
+            });
             res.status(200).json({
                 message: "get one success",
                 data: result
@@ -38,9 +47,14 @@ module.exports = {
     // Create tracking value
     create: async (req,res,next) => {
         try {
+            const {id} = req.params;
             const {month,target,realization,value} = req.body;
-            const result = await ProjectTrack.create({
-                month,target,realization,value
+            const result = await Progress.create({
+                month:month,
+                target:target,
+                realization:realization,
+                value:value,
+                ProjectId:id
             });
             res.status(201).json({
                 message: "create success",
@@ -56,18 +70,20 @@ module.exports = {
         try {
             const {id} = req.params;
             const {month,target,realization,value} = req.body;
-            const result = await ProjectTrack.update(
-                {
-                    value: value
-                }
-                ,
-                {
-                    where: {ProjectId: id, month: month, target: target, realization: realization}
-                }
-            );
+            const isExist = await Progress.findAll({where: {ProjectId: id, month: month, target: target, realization: realization}});
+            if(isExist){
+                await Progress.update({value: value}, {
+                    where: {
+                        ProjectId: id,
+                    }
+                })
+            }
+            else{
+                return Promise.reject();
+            }
             res.status(200).json({
                 message: "update success",
-                data: result
+                data: await Progress.findAll({where: {ProjectId: id}})
             });
         } catch (error) {
             next(error);
@@ -78,7 +94,7 @@ module.exports = {
     destroy: async (req,res,next) => {
         try {
             const {id} = req.params;
-            const deletedData = await ProjectTrack.findAll({where: {ProjectId: id}});
+            const deletedData = await Progress.findAll({where: {ProjectId: id}});
 
             await ProjectTrack.destroy({
                 where: {ProjectId: id}
@@ -91,6 +107,8 @@ module.exports = {
         } catch (error) {
             next(error);
         }
-    }
+    },
+
+    
 
 }
