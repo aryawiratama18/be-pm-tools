@@ -20,7 +20,8 @@ module.exports = {
         defaultValue: false
       },
       value: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       },
       ProjectId: {
         type: Sequelize.INTEGER

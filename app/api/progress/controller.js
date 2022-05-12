@@ -94,16 +94,26 @@ module.exports = {
     destroy: async (req,res,next) => {
         try {
             const {id} = req.params;
-            const deletedData = await Progress.findAll({where: {ProjectId: id}});
+            const {target,realization} = req.body;
+            const deletedData = await Progress.findAll({where: {target: target,realization: realization,ProjectId: id}});
+            console.log(typeof target);
+            console.log(typeof realization);
+            console.log(typeof id);
+            console.log('Deleted Data : ',deletedData);
+            // if(deletedData){
+            //     await Progress.destroy({
+            //         where: {
+            //             ProjectId: id,
+            //             target: target,
+            //             realization: realization,
+            //         }
+            //     });
+            // }
 
-            await ProjectTrack.destroy({
-                where: {ProjectId: id}
-            });
-
-            res.status(200).json({
-                message: "delete success",
-                data: deletedData
-            });
+            // res.status(200).json({
+            //     message: "delete success",
+            //     data: deletedData
+            // });
         } catch (error) {
             next(error);
         }
